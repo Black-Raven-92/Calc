@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn_clear=findViewById(R.id.btn_ac);
-        history=findViewById(R.id.history);
+        history=findViewById(R.id.textView);
         setNumberButtonClick();
         btn_clear.setOnClickListener(v->{
             history.setText("");

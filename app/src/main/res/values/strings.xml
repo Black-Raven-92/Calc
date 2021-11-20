@@ -16,8 +16,9 @@
     <string name="btn_min">-</string>
     <string name="btn_mul">*</string>
     <string name="btn_dev">/</string>
-    <string name="btn_ac">C</string>
+    <string name="btn_ac">DEL</string>
     <string name="btn_settings">Settings</string>
     <string name="text">Res</string>
     <string name="history">History</string>
+    <string name="del_text">DEL</string>
 </resources>
