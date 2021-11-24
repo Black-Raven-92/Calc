@@ -20,24 +20,25 @@ import ua.black_raven.alculator.R;
 public class MainActivity extends AppCompatActivity implements CalcView {
     private TextView txtResult;
     private Presenter presenter;
-    private final String RESULT="RES";
+    private final String RESULT = "RES";
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        presenter.saveState(outState);
-
+        outState.putParcelable(RESULT, presenter.saveState());
     }
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState==null){
+        if (savedInstanceState == null) {
             presenter = new Presenter(this, new CalcImpl());
-        }else {
+
+
+        } else {
+            presenter = new Presenter(this, new CalcImpl());
             presenter.restoreState(savedInstanceState);
 
         }
