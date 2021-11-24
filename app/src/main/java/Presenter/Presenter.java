@@ -1,5 +1,6 @@
 package Presenter;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,7 +10,7 @@ import logic.Calc;
 import logic.Operation;
 import ui.CalcView;
 
-public class Presenter implements Parcelable {
+public class Presenter {
     private static final int DECIMAL_BASE = 10;
     private CalcView view;
     private Calc calculator;
@@ -25,33 +26,6 @@ public class Presenter implements Parcelable {
         this.view = view;
         this.calculator = calculator;
     }
-
-    protected Presenter(Parcel in) {
-        if (in.readByte() == 0) {
-            argOne = null;
-        } else {
-            argOne = in.readDouble();
-        }
-        if (in.readByte() == 0) {
-            argTwo = null;
-        } else {
-            argTwo = in.readDouble();
-        }
-        isDotPressed = in.readByte() != 0;
-        divider = in.readInt();
-    }
-
-    public static final Creator<Presenter> CREATOR = new Creator<Presenter>() {
-        @Override
-        public Presenter createFromParcel(Parcel in) {
-            return new Presenter(in);
-        }
-
-        @Override
-        public Presenter[] newArray(int size) {
-            return new Presenter[size];
-        }
-    };
 
     public void onDigitPressed(int digit) {
         if (argTwo == null) {
@@ -119,27 +93,94 @@ public class Presenter implements Parcelable {
 
 
     }
+    public void saveState(Bundle oustate){
+        State state = new State(argOne,argTwo,previousOperation,operationSelected,isDotPressed,divider);
+        oustate.putParcelable("test",state);
 
-    @Override
-    public int describeContents() {
-        return 0;
+
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (argOne == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(argOne);
-        }
-        if (argTwo == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(argTwo);
-        }
-        dest.writeByte((byte) (isDotPressed ? 1 : 0));
-        dest.writeInt(divider);
+    public void restoreState(Bundle bundle){
+        State outState = (State) bundle.getParcelable("test");
+        this.argTwo=outState.argTwo;
+        this.argOne=outState.argOne;
+        this.isDotPressed=outState.isDotPressed;
+        this.divider=outState.divider;
+        double result = calculator.performOperation(argOne, argTwo, operationSelected);
+        displayResult(result);
+
+
+
     }
+
+    private class State implements Parcelable {
+        private Double argOne;
+        private Double argTwo;
+        private Operation previousOperation;
+        private Operation operationSelected;
+        private boolean isDotPressed;
+        private int divider;
+
+
+        public State(Double argOne, Double argTwo, Operation previousOperation, Operation operationSelected, boolean isDotPressed, int divider) {
+            this.argOne = argOne;
+            this.argTwo = argTwo;
+            this.previousOperation = previousOperation;
+            this.operationSelected = operationSelected;
+            this.isDotPressed = isDotPressed;
+            this.divider = divider;
+        }
+
+        protected State(Parcel in) {
+            if (in.readByte() == 0) {
+                argOne = null;
+            } else {
+                argOne = in.readDouble();
+            }
+            if (in.readByte() == 0) {
+                argTwo = null;
+            } else {
+                argTwo = in.readDouble();
+            }
+            isDotPressed = in.readByte() != 0;
+            divider = in.readInt();
+        }
+
+        public final Creator<State> CREATOR = new Creator<State>() {
+            @Override
+            public State createFromParcel(Parcel in) {
+                return new State(in);
+            }
+
+            @Override
+            public State[] newArray(int size) {
+                return new State[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            if (argOne == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(argOne);
+            }
+            if (argTwo == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(argTwo);
+            }
+            dest.writeByte((byte) (isDotPressed ? 1 : 0));
+            dest.writeInt(divider);
+        }
+    }
+
+
 }

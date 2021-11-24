@@ -25,8 +25,11 @@ public class MainActivity extends AppCompatActivity implements CalcView {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(RESULT,presenter);
+        presenter.saveState(outState);
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements CalcView {
         if (savedInstanceState==null){
             presenter = new Presenter(this, new CalcImpl());
         }else {
-            presenter=(Presenter) savedInstanceState.getParcelable(RESULT);
+            presenter.restoreState(savedInstanceState);
 
         }
 
