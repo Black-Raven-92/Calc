@@ -25,20 +25,19 @@ public class MainActivity extends AppCompatActivity implements CalcView {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(RESULT, presenter.saveState());
+        presenter.restoreState(outState);
+
+
     }
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            presenter = new Presenter(this, new CalcImpl());
-
-
-        } else {
-            presenter = new Presenter(this, new CalcImpl());
+        presenter = new Presenter(this, new CalcImpl());
+        if (savedInstanceState != null) {
             presenter.restoreState(savedInstanceState);
 
         }
