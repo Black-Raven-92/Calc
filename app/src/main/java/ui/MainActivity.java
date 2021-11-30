@@ -1,12 +1,19 @@
 package ui;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,32 +22,59 @@ import java.util.function.Predicate;
 import Presenter.Presenter;
 import logic.CalcImpl;
 import logic.Operation;
+import logic.Theme;
+import logic.ThemeStorage;
 import ua.black_raven.alculator.R;
 
 public class MainActivity extends AppCompatActivity implements CalcView {
     private TextView txtResult;
     private Presenter presenter;
     private final String RESULT = "RES";
+    private ThemeStorage storage;
+
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        presenter.restoreState(outState);
-
-
+        // presenter.restoreState(outState);
     }
 
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Theme theme = (Theme) result.getData().getSerializableExtra(SelectedThemesActivity.EXTRA_THEME);
+                storage.saveTheme(theme);
+                recreate();
+            }
+
+
+        }
+    });
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        storage = new ThemeStorage(this);
+
         presenter = new Presenter(this, new CalcImpl());
         if (savedInstanceState != null) {
-            presenter.restoreState(savedInstanceState);
+            presenter.onRestoreState(savedInstanceState);
 
         }
+
+        findViewById(R.id.btn_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SelectedThemesActivity.class);
+                intent.putExtra(SelectedThemesActivity.EXTRA_THEME, storage.getSavedTheme());
+                launcher.launch(intent);
+
+            }
+        });
+        setTheme(storage.getSavedTheme().getTheme());
 
         txtResult = findViewById(R.id.textView);
         Map<Integer, Integer> digits = new HashMap<>();
@@ -100,4 +134,5 @@ public class MainActivity extends AppCompatActivity implements CalcView {
         txtResult.setText(result);
 
     }
+
 }

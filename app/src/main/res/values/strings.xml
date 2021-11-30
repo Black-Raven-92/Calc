@@ -21,4 +21,7 @@
     <string name="text">Res</string>
     <string name="history">History</string>
     <string name="del_text">DEL</string>
+    <string name="theme_one">Theme One</string>
+    <string name="theme_two">Theme Two</string>
+    <string name="theme_three">Theme Three</string>
 </resources>

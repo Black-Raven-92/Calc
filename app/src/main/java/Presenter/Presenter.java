@@ -4,10 +4,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.material.appbar.AppBarLayout;
-
-import java.lang.reflect.ParameterizedType;
-
 import logic.Calc;
 import logic.Operation;
 import ui.CalcView;
@@ -98,13 +94,13 @@ public class Presenter {
 
     }
 
-    public void saveState(Bundle bundle) {
-        bundle.putParcelable(KEY_STATE, new State(argOne, argTwo, previousOperation, operationSelected, isDotPressed, divider));
+    public void onSaveState(Bundle bundle) {
+        bundle.putParcelable(KEY_STATE, new State(argOne, argTwo, previousOperation, operationSelected, isDotPressed, divider, view));
 
 
     }
 
-    public void restoreState(Bundle bundle) {
+    public void onRestoreState(Bundle bundle) {
         State state = bundle.getParcelable(KEY_STATE);
         argOne = state.argOne;
         argTwo = state.argTwo;
@@ -112,6 +108,8 @@ public class Presenter {
         divider = state.divider;
         operationSelected = state.operationSelected;
         previousOperation = state.previousOperation;
+        view=state.view;
+        view.ShowResult(String.valueOf(argOne));
 
     }
 
@@ -122,17 +120,44 @@ public class Presenter {
         private Operation operationSelected;
         private boolean isDotPressed;
         private int divider;
+        private CalcView view;
 
-        public State(Double argOne, Double argTwo, Operation previousOperation, Operation operationSelected, boolean isDotPressed, int divider) {
+        public State(Double argOne, Double argTwo, Operation previousOperation, Operation operationSelected, boolean isDotPressed, int divider, CalcView view) {
             this.argOne = argOne;
             this.argTwo = argTwo;
             this.previousOperation = previousOperation;
             this.operationSelected = operationSelected;
             this.isDotPressed = isDotPressed;
             this.divider = divider;
+            this.view = view;
         }
 
-        protected State(Parcel in) {
+        public Double getArgOne() {
+            return argOne;
+        }
+
+        public Double getArgTwo() {
+            return argTwo;
+        }
+
+        public Operation getPreviousOperation() {
+            return previousOperation;
+        }
+
+        public Operation getOperationSelected() {
+            return operationSelected;
+        }
+
+        public boolean isDotPressed() {
+            return isDotPressed;
+        }
+
+        public int getDivider() {
+            return divider;
+        }
+
+        protected State(Parcel in, CalcView view) {
+            this.view = view;
             if (in.readByte() == 0) {
                 argOne = null;
             } else {
@@ -148,9 +173,11 @@ public class Presenter {
         }
 
         public static final Creator<State> CREATOR = new Creator<State>() {
+            public CalcView view;
+
             @Override
             public State createFromParcel(Parcel in) {
-                return new State(in);
+                return new State(in, view);
             }
 
             @Override
