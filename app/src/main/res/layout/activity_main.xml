@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
     android:padding="10dp"
     tools:context="ui.MainActivity"
-    android:theme="@style/Theme.Сalculator.night">
+    >
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_dot"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/text_dot"
-        app:cornerRadius="15dp"
+        app:cornerRadius="@dimen/cornerRadius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/equals"
         app:layout_constraintHorizontal_bias="0.5"
@@ -25,7 +24,6 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/equals"
-        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/text_equals"
@@ -38,7 +36,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_0"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/btn_0"
@@ -51,7 +49,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/yellow"
@@ -66,7 +64,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_7"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cornerRadius="15dp"
@@ -79,7 +77,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_8"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/btn_8"
@@ -92,7 +90,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_9"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/btn_9"
@@ -121,7 +119,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_4"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         app:cornerRadius="15dp"
         android:layout_height="wrap_content"
@@ -136,7 +134,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_5"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         app:cornerRadius="15dp"
         android:layout_height="wrap_content"
@@ -151,7 +149,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bnt_6"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         app:cornerRadius="15dp"
         android:layout_height="wrap_content"
@@ -180,7 +178,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_1"
-        style="@style/ButtonStyle"
+
         android:layout_width="0dp"
         app:cornerRadius="15dp"
         app:elevation="@dimen/cardview_default_radius"
@@ -191,11 +189,12 @@
         app:layout_constraintEnd_toStartOf="@+id/bnt_2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".27" />
+        app:layout_constraintWidth_percent=".27"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bnt_2"
-        style="@style/ButtonStyle"
+
         app:cornerRadius="15dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -209,7 +208,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_3"
-        style="@style/ButtonStyle"
+
         app:cornerRadius="15dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
